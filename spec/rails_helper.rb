@@ -1,6 +1,19 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
+require 'coveralls'
+Coveralls.wear!
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+                                                                   SimpleCov::Formatter::HTMLFormatter,
+                                                                   Coveralls::SimpleCov::Formatter
+                                                               ])
 
 require 'spec_helper'
+require 'simplecov'
+SimpleCov.start 'rails' do
+  add_filter '/app/mailers'
+  add_filter '/app/jobs'
+  add_filter '/app/channels'
+end
+SimpleCov.maximum_coverage_drop 5
 require 'database_cleaner/active_record'
 ENV['RAILS_ENV'] ||= 'test'
 
