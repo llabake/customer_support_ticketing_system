@@ -23,7 +23,7 @@ group :development do
 end
 
 group :test do
-  gem 'database_cleaner', '~> 1.8', '>= 1.8.3'
+  gem 'database_cleaner-active_record', '~> 1.8'
   gem 'factory_bot_rails', '~> 5.1', '>= 5.1.1'
   gem 'faker', '~> 2.10', '>= 2.10.2'
   gem 'rspec-rails', '~> 3.9'
