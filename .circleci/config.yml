@@ -1,0 +1,84 @@
+version: 2.1
+
+executors:
+  default:
+    working_directory: ~/customer_support_ticketing_system
+    docker:
+      - image: circleci/ruby:2.6.3-stretch-node
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_PATH: vendor/bundle
+          BUNDLE_RETRY: 3
+          BUNDLE_VERSION: 2.0.1
+          RAILS_ENV: test
+          DB_HOST: 127.0.0.1
+          DB_USERNAME: root
+          DB_PASSWORD: ''
+      - image: circleci/mysql:8.0.4
+        command: [--default-authentication-plugin=mysql_native_password]
+        environment:
+          MY_SQL_ALLOW_EMPTY_PASSWORD: true
+          MY_SQL_ROOT_HOST: '%'
+          MYSQL_DATABASE: customer_support_ticketing_system_test
+          MYSQL_USER: root
+
+commands:
+  configure_bundler:
+    description: Configure Bundler
+    steps:
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+jobs:
+  build:
+    executor: default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - customer_support_ticketing_system-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - customer_support_ticketing_system-
+      - configure_bundler
+      - run:
+          name: Install bundle
+          command: bundle install
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+      - run:
+          name: Setup DB
+          command: |
+            bundle exec rails db:create db:schema:load --trace
+            bundle exec rake db:migrate
+      - run:
+          name: Linting Codebase
+          command: |
+            bundle exec rubocop
+      - run:
+          name: Run tests
+          command: |
+            bundle exec rspec --profile 10 \
+                              --format progress
+      - store_artifacts:
+          path: coverage
+      - save_cache:
+          key: customer_support_ticketing_system-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - ./customer_support_ticketing_system
+
+workflows:
+  version: 2.1
+  integration:
+    jobs:
+      - build
+      - rubocop:
+          requires:
+            -build
