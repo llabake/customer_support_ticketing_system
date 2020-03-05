@@ -4,7 +4,7 @@ executors:
   default:
     working_directory: ~/customer_support_ticketing_system
     docker:
-      - image: circleci/ruby:2.6.3-stretch-node
+      - image: circleci/ruby:2.6.5-stretch-node
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_PATH: vendor/bundle
@@ -53,7 +53,7 @@ jobs:
           name: Setup DB
           command: |
             bundle exec rails db:create db:schema:load --trace
-            bundle exec rake db:migrate
+            bundle exec rails db:migrate
       - run:
           name: Linting Codebase
           command: |
@@ -79,6 +79,3 @@ workflows:
   integration:
     jobs:
       - build
-      - rubocop:
-          requires:
-            -build
