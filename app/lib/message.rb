@@ -14,15 +14,15 @@ class Message
   end
 
   def self.missing_token
-    'Missing token'
+    'Missing token, expect token in the header with key as authorization'
   end
 
   def self.unauthorized
     'Unauthorized request'
   end
 
-  def self.account_created
-    'Account created successfully'
+  def self.account_created(user)
+    "Welcome #{user}, account created successfully"
   end
 
   def self.account_not_created
