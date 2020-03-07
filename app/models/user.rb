@@ -2,6 +2,8 @@
 
 class User < ApplicationRecord
   SUPER_ADMIN = 'admin'
+
+  has_many :tickets
   belongs_to :role,
              required: false
 
@@ -17,6 +19,6 @@ class User < ApplicationRecord
   validates :password_digest, presence: true, length: { minimum: 6 }
 
   def admin?
-    role.name = SUPER_ADMIN
+    role.name == SUPER_ADMIN
   end
 end

@@ -12,12 +12,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_200_304_181_026) do
+ActiveRecord::Schema.define(version: 20_200_305_163_122) do
+  create_table 'requests', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.string 'title'
+    t.text 'description'
+    t.string 'status', default: 'open'
+    t.bigint 'user_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['user_id'], name: 'index_requests_on_user_id'
+  end
+
   create_table 'roles', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.string 'name', default: 'user'
     t.text 'description'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+  end
+
+  create_table 'tickets', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.string 'title'
+    t.text 'description'
+    t.string 'status', default: 'open'
+    t.bigint 'user_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['user_id'], name: 'index_tickets_on_user_id'
   end
 
   create_table 'users', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci', force: :cascade do |t|
@@ -30,5 +50,7 @@ ActiveRecord::Schema.define(version: 20_200_304_181_026) do
     t.index ['role_id'], name: 'index_users_on_role_id'
   end
 
+  add_foreign_key 'requests', 'users'
+  add_foreign_key 'tickets', 'users'
   add_foreign_key 'users', 'roles'
 end
