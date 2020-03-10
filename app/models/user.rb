@@ -4,6 +4,8 @@ class User < ApplicationRecord
   SUPER_ADMIN = 'admin'
 
   has_many :tickets
+  has_many :comments
+
   belongs_to :role,
              required: false
 

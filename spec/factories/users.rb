@@ -6,13 +6,13 @@ FactoryBot.define do
     name { Faker::Name.name }
     email { 'foo@bar.com' }
     password { 'foobar' }
+  end
 
-    trait :admin do
-      role { 'admin' }
-    end
+  trait :admin do
+    role { 'admin' }
+  end
 
-    trait :agent do
-      role { 'agent' }
-    end
+  trait :agent do
+    role { 'agent' }
   end
 end
