@@ -12,15 +12,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_200_305_163_122) do
-  create_table 'requests', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci', force: :cascade do |t|
-    t.string 'title'
-    t.text 'description'
-    t.string 'status', default: 'open'
+ActiveRecord::Schema.define(version: 20_200_307_193_838) do
+  create_table 'comments', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.text 'content'
     t.bigint 'user_id', null: false
+    t.bigint 'ticket_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.index ['user_id'], name: 'index_requests_on_user_id'
+    t.index ['ticket_id'], name: 'index_comments_on_ticket_id'
+    t.index ['user_id'], name: 'index_comments_on_user_id'
   end
 
   create_table 'roles', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci', force: :cascade do |t|
@@ -50,7 +50,8 @@ ActiveRecord::Schema.define(version: 20_200_305_163_122) do
     t.index ['role_id'], name: 'index_users_on_role_id'
   end
 
-  add_foreign_key 'requests', 'users'
+  add_foreign_key 'comments', 'tickets'
+  add_foreign_key 'comments', 'users'
   add_foreign_key 'tickets', 'users'
   add_foreign_key 'users', 'roles'
 end

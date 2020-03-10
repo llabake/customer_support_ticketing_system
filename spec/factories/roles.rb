@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :role do
-    name { 'admin' }
+    name { 'user' }
     description { 'foobar' }
   end
 end

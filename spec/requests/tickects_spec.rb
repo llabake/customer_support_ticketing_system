@@ -4,20 +4,16 @@ require 'rails_helper'
 
 RSpec.describe 'Tickets', type: :request do
   # let!(:tickets) { create_list(:ticket, 10) }
+  let(:user) { build(:user) }
   let!(:ticket) { create(:ticket) }
   # let(:ticket_id) { tickets.first.id }
+  let(:headers) { valid_headers }
 
   describe 'POST /tickets' do
-    let(:ticket_attributes) do
-      { title: 'Unable to print',
-        description: 'I am unable to use the printer on the third floor' }
-    end
-
     context 'when the request is valid' do
-      before { post tickets_path, params: ticket_attributes }
-
+      before { post tickets_path, params: ticket, headers: headers }
       it 'creates a ticket' do
-        expect(json['title']).to eq('Unable to print')
+        expect(json['title']).to eq(ticket[:title])
       end
 
       it 'returns status code 201' do
@@ -26,7 +22,7 @@ RSpec.describe 'Tickets', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post tickets_path, params: { title: 'No internet' } }
+      before { post tickets_path, params: { title: 'No internet' }, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)

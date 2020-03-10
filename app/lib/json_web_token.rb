@@ -23,7 +23,7 @@ class JsonWebToken
     private
 
     def add_claims(payload)
-      exp           = Time.zone.now.to_i + 36_000
+      exp           = Time.zone.now.to_i + 72_000
       payload[:exp] = exp
       payload
     end

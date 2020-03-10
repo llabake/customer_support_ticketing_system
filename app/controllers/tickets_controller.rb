@@ -3,31 +3,29 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: %i[show update destroy]
   def index
-    @tickets = current_user.tickets.recent
-    json_response(@tickets)
+    tickets = current_user.tickets.recent
+    json_response(tickets)
   end
 
   def create
-    @ticket = current_user.tickets.create!(ticket_params)
-    json_response(@ticket, :created)
+    binding.pry
+    ticket = current_user.tickets.create!(ticket_params)
+    json_response(ticket, :created)
   end
 
   def show
-    json_response(@ticket)
+    ticket = Ticket.includes(:comments).find(params[:id])
+    json_response({ ticket: ticket, comments: ticket.comments })
   end
 
   def update
-    @ticket.update(ticket_params)
-    json_response(@ticket)
-    # head :no_content
+    ticket.update(ticket_params)
+    json_response(ticket)
   end
 
   def destroy
-    @ticket.destroy
-    json_response(@ticket)
-
-    # @ticket.destroy
-    # head :no_content
+    ticket.destroy
+    json_response(ticket)
   end
 
   private
@@ -37,6 +35,6 @@ class TicketsController < ApplicationController
   end
 
   def set_ticket
-    @ticket = Ticket.find(params[:id])
+    Ticket.find(params[:id])
   end
 end
