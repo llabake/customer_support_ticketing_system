@@ -8,7 +8,6 @@ class TicketsController < ApplicationController
   end
 
   def create
-    binding.pry
     ticket = current_user.tickets.create!(ticket_params)
     json_response(ticket, :created)
   end
