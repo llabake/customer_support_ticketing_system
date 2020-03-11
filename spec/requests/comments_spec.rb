@@ -20,7 +20,7 @@ RSpec.describe 'Comments' do
       context 'but an agent is yet to comment on the ticket' do
         it 'return a message that the user should wait' do
           expect(response).to have_http_status(200)
-          expect(response.body).to match("Please wait for an agent to comment")
+          expect(response.body).to match('Please wait for an agent to comment')
         end
       end
 

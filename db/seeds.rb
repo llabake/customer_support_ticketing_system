@@ -42,3 +42,22 @@ end
 unless user_2
   User.create(name: 'user_2', email: user_2_email, password: 'password')
 end
+
+# Seed Ticktets
+
+5.times do |ticket|
+  Ticket.create!(
+    title: "The Ticket Post #{ticket}",
+    description: Faker::Lorem.paragraph_by_chars(number: 255),
+    user_id: User.last.id
+  )
+end
+puts '5 tickets created'
+5.times do |ticket|
+  Ticket.create!(
+    title: "The Ticket Post #{ticket}",
+    description: Faker::Lorem.paragraph_by_chars(number: 255),
+    user_id: User.fifth.id
+  )
+end
+puts '5 tickets created'
