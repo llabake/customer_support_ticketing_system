@@ -11,4 +11,10 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :tickets, only: %i[index update]
   end
+
+  namespace :agent do
+    resources :tickets, only: %i[index update] do
+      get 'export', on: :collection
+    end
+  end
 end

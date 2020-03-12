@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   SUPER_ADMIN = 'admin'
+  AGENT = 'agent'
 
   has_many :tickets
   has_many :comments
@@ -22,5 +23,9 @@ class User < ApplicationRecord
 
   def admin?
     role.name == SUPER_ADMIN
+  end
+
+  def agent?
+    role.name == AGENT
   end
 end
