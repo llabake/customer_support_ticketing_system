@@ -108,6 +108,7 @@ To get up and running with the project locally, follow the following steps.
 
 Request type | Endpoint | Action
 ------------ | -------- | ------
+<b>Customer</b>
 POST | [localhost:3000/signup](#create-user) | Registers a new user
 POST | [localhost:3000/auth/login](#login) | Logs a user in
 POST | [localhost:3000/tickets](#add-ticket) | Add a new ticket
@@ -116,10 +117,10 @@ PUT | [localhost:3000/tickets/:ticket_id](#update-a-ticket) | Update a ticket fo
 GET | [localhost:3000/tickets/:ticket_id](#get-a-ticket) | Get a ticket
 DELETE | [localhost:3000/tickets/:ticket_id](#delete-a-ticket) | Delete a ticket
 POST | [localhost:3000/tickets/:ticket_id/comments](#comment-on-a-ticket) | Add comment to a ticket
-
+<b>Admin</b>
 GET | [localhost:3000/admin/tickets](#get-all-tickets) | Get all tickets by an admin
 PUT | [localhost:3000/admin/tickets/:ticket_id](#update-a-ticket) | Update a ticket by an admin
-
+<b>Agents</b>
 GET | [localhost:3000/agent/tickets](#get-all-tickets) | Get all tickets assigned to an agent
 PUT | [localhost:3000/agent/tickets/:ticket_id](#update-a-ticket) | Update a ticket by an agent
 GET | [localhost:3000/agent/tickets/export](#export-tickets) | Export tickets by an agent
