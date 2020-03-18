@@ -22,3 +22,5 @@
 /config/master.key
 coverage/*
 localhost
+
+public/pdfs
